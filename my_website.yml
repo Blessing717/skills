@@ -1,0 +1,16 @@
+---
+    - hosts: webservers
+      tasks:
+        - name: Add lines to Dockerfile
+          lineinfile:
+            path: /home/devasc/home/devasc/labs/ansible/web_229139264/Dockerfile
+            line: |
+              FROM nginx:alpine
+              COPY ./229139264/index.html /usr/local/apache2/htdocs/
+              EXPOSE 80
+              CMD ["nginx-foreground"]
+            mode: '0644'
+        - name: Build Dockerfile
+          command: docker build -t website /home/devasc/home/devasc/labs/ansible/web_229139264
+        - name: Run Dockerfile
+          command: docker run -t -d -p 8085:80 --name hello website
